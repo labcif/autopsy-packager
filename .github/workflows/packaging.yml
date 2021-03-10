@@ -1,0 +1,17 @@
+name: packaging
+on: [push, pull_request]
+
+jobs:
+  build-run:
+    runs-on: ubuntu-latest
+    container:
+      image: debian:sid
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: |
+          apt-get update -y
+          apt-get install -y build-essential curl git
+      - name: Build package
+        run: |
+          make
