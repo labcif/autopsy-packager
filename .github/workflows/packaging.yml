@@ -1,17 +1,91 @@
 name: packaging
 on: [push, pull_request]
 
+env:
+  PACKAGE_SLEUTHKIT_JAVA_VERSION: 4.10.1
+  PACKAGE_SLEUTHKIT_JAVA_REL: 0
+  PACKAGE_SLEUTHKIT_JAVA_SHA: 44abd10602df70625bc438cf011e23ddc43a132a
+  PACKAGE_AUTOPSY_VERSION: 4.17.0
+  PACKAGE_AUTOPSY_REL: 1
+  PACKAGE_AUTOPSY_SHA: 39a2a13fa3cb7376acdd3125e862ace9626bde1b
+
 jobs:
-  build-run:
+  arch-packages:
     runs-on: ubuntu-latest
+    container:
+      image: archlinux
+      options: --privileged # Needed for building in clean chroot
+      volumes:
+        - /sys/fs/cgroup:/sys/fs/cgroup # systemd nspawn needs cgroups
+    steps:
+      - name: Install required dependencies
+        run: |
+          pacman -Syu --noconfirm
+          pacman -S git --noconfirm --needed --noprogressbar
+      - name: Clone sleuthkit-java build repo from AUR
+        run: |
+          git clone https://aur.archlinux.org/sleuthkit-java.git $HOME/sleuthkit-java
+          (cd $HOME/sleuthkit-java; git checkout $PACKAGE_SLEUTHKIT_JAVA_SHA)
+      - name: Build sleuthkit-java
+        uses: FFY00/build-arch-package@v1
+        with:
+          PKGBUILD: $HOME/sleuthkit-java/PKGBUILD
+          OUTDIR: /tmp/artifacts
+      - uses: actions/upload-artifact@v2
+        with:
+          name: arch-packages
+          path: /tmp/artifacts/*.pkg.tar.zst
+      - name: Clone autopsy-bin build repo from AUR
+        run: |
+          git clone https://aur.archlinux.org/autopsy-bin.git $HOME/autopsy-bin
+          (cd $HOME/autopsy-bin; git checkout $PACKAGE_AUTOPSY_SHA)
+      - name: Build autopsy-bin
+        run: |
+          chown user -R $HOME/autopsy-bin
+          cd $HOME/autopsy-bin
+          extra-x86_64-build -- -U user -I "$(find "/tmp/artifacts" -name 'sleuthkit-java-*.pkg.tar.zst')"
+          mv *.pkg.* /tmp/artifacts
+      - uses: actions/upload-artifact@v2
+        with:
+          name: arch-packages
+          path: /tmp/artifacts/*.pkg.tar.zst
+
+  build-run:
+    needs: arch-packages
+    runs-on: ubuntu-latest
+    env:
+      DEBIAN_FRONTEND: noninteractive
+      LANG: en_US.UTF-8
     container:
       image: debian:sid
     steps:
       - uses: actions/checkout@v2
+      - name: Download a single artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: arch-packages
       - name: Install Dependencies
         run: |
           apt-get update -y
-          apt-get install -y build-essential curl git
-      - name: Build package
-        run: |
-          make
+          apt-get install -y --no-install-recommends build-essential rubygems ruby ruby-dev curl git zstd locales
+          sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+          dpkg-reconfigure --frontend=noninteractive locales
+          update-locale LANG=en_US.UTF-8
+          gem install --no-document fpm
+          fpm -t deb \
+            -n "autopsy" \
+            -v "${PACKAGE_AUTOPSY_VERSION}" \
+            --iteration "$PACKAGE_SLEUTHKIT_JAVA_REL" \
+            --no-auto-depends \
+            -d "openjdk-8-jre" \
+            -d "sleuthkit-java (>= ${PACKAGE_SLEUTHKIT_JAVA_VERSION})" \
+            -d "testdisk" \
+            -d "openjfx" \
+            -a amd64 \
+            -s pacman autopsy-bin-${PACKAGE_AUTOPSY_VERSION}-${PACKAGE_AUTOPSY_REL}-x86_64.pkg.tar.zst
+          mkdir -p /tmp/artifacts
+          mv *.deb /tmp/artifacts
+      - uses: actions/upload-artifact@v2
+        with:
+          name: debian-packages
+          path: /tmp/artifacts/*.deb
