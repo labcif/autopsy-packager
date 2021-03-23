@@ -5,9 +5,9 @@ env:
   PACKAGE_SLEUTHKIT_JAVA_VERSION: 4.10.1
   PACKAGE_SLEUTHKIT_JAVA_REL: 0
   PACKAGE_SLEUTHKIT_JAVA_SHA: 44abd10602df70625bc438cf011e23ddc43a132a
-  PACKAGE_AUTOPSY_VERSION: 4.17.0
-  PACKAGE_AUTOPSY_REL: 1
-  PACKAGE_AUTOPSY_SHA: 39a2a13fa3cb7376acdd3125e862ace9626bde1b
+  PACKAGE_AUTOPSY_BIN_VERSION: 4.17.0
+  PACKAGE_AUTOPSY_BIN_REL: 2
+  PACKAGE_AUTOPSY_BIN_SHA: 2d0792687dbd01d009cdc2fbcafbac7c537592de
 
 jobs:
   arch-packages:
@@ -38,7 +38,7 @@ jobs:
       - name: Clone autopsy-bin build repo from AUR
         run: |
           git clone https://aur.archlinux.org/autopsy-bin.git $HOME/autopsy-bin
-          (cd $HOME/autopsy-bin; git checkout $PACKAGE_AUTOPSY_SHA)
+          (cd $HOME/autopsy-bin; git checkout $PACKAGE_AUTOPSY_BIN_SHA)
       - name: Build autopsy-bin
         run: |
           chown user -R $HOME/autopsy-bin
@@ -74,7 +74,7 @@ jobs:
           gem install --no-document fpm
           fpm -t deb \
             -n "autopsy" \
-            -v "${PACKAGE_AUTOPSY_VERSION}" \
+            -v "${PACKAGE_AUTOPSY_BIN_VERSION}" \
             --iteration "$PACKAGE_SLEUTHKIT_JAVA_REL" \
             --no-auto-depends \
             -d "openjdk-8-jre" \
@@ -82,7 +82,7 @@ jobs:
             -d "testdisk" \
             -d "openjfx" \
             -a amd64 \
-            -s pacman autopsy-bin-${PACKAGE_AUTOPSY_VERSION}-${PACKAGE_AUTOPSY_REL}-x86_64.pkg.tar.zst
+            -s pacman autopsy-bin-${PACKAGE_AUTOPSY_BIN_VERSION}-${PACKAGE_AUTOPSY_BIN_REL}-x86_64.pkg.tar.zst
           mkdir -p /tmp/artifacts
           mv *.deb /tmp/artifacts
       - uses: actions/upload-artifact@v2
