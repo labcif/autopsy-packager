@@ -1,5 +1,5 @@
 name: packaging
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 
 env:
   PACKAGE_SLEUTHKIT_JAVA_VERSION: 4.10.1
