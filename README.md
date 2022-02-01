@@ -28,3 +28,7 @@ sudo pacman -U <package-name>.pkg.tar.zst
 ```bash
 sudo apt install <package-name>.deb
 ```
+
+The Sleuth Kit package .deb files:
+
+- Autopsy 4.9.2 -> [The Sleuth Kit 4.11.1](https://github.com/sleuthkit/sleuthkit/releases/download/sleuthkit-4.11.1/sleuthkit-java_4.11.1-1_amd64.deb)
