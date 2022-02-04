@@ -1,6 +1,7 @@
 # autopsy-packager
 
 [![Github Workflows](https://github.com/labcif/autopsy-packager/actions/workflows/packaging.yml/badge.svg?branch=main)](https://github.com/labcif/autopsy-packager/actions?query=branch%3Amain)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/labcif/autopsy-packager/master.svg)](https://results.pre-commit.ci/latest/github/labcif/autopsy-packager/master)
 
 Automatic Github Workflows packager for autopsy
 
