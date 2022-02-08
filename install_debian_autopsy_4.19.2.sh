@@ -9,7 +9,10 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
-cd "$(mktemp -d -t autopsy_installer-XXXXXXXXXX)"
+INSTALLER_TMPDIR="$(mktemp -d -t autopsy_installer-XXXXXXXXXX)"
+trap 'rm -rf "$INSTALLER_TMPDIR"' EXIT
+
+cd "$INSTALLER_TMPDIR"
 
 apt -y update
 apt -y install curl gnupg
