@@ -77,10 +77,10 @@ jobs:
             -v "${PACKAGE_AUTOPSY_BIN_VERSION}" \
             --iteration "$PACKAGE_SLEUTHKIT_JAVA_REL" \
             --no-auto-depends \
-            -d "openjdk-8-jre" \
+            -d "bellsoft-java8-full" \
             -d "sleuthkit-java (>= ${PACKAGE_SLEUTHKIT_JAVA_VERSION})" \
             -d "testdisk" \
-            -d "openjfx" \
+            -d "imagemagick" \
             -a amd64 \
             -s pacman autopsy-bin-${PACKAGE_AUTOPSY_BIN_VERSION}-${PACKAGE_AUTOPSY_BIN_REL}-x86_64.pkg.tar.zst
           mkdir -p /tmp/artifacts
