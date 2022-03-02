@@ -59,7 +59,7 @@ jobs:
     container:
       image: debian:sid
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Download a single artifact
         uses: actions/download-artifact@v2
         with:
