@@ -31,6 +31,16 @@ jobs:
         with:
           PKGBUILD: $HOME/sleuthkit-java/PKGBUILD
           OUTDIR: /tmp/artifacts
+      - name: Clone java8-openjfx build repo from AUR
+        run: |
+          git clone https://aur.archlinux.org/java8-openjfx.git $HOME/java8-openjfx
+      - name: Build java8-openjfx
+        # uses: FFY00/build-arch-package@v1
+        run: |
+          chown user -R $HOME/java8-openjfx
+          cd $HOME/java8-openjfx
+          extra-x86_64-build -- -U user
+          mv *.pkg.* /tmp/artifacts
       - uses: actions/upload-artifact@v2
         with:
           name: arch-packages
