@@ -31,7 +31,7 @@ jobs:
         with:
           PKGBUILD: $HOME/sleuthkit-java/PKGBUILD
           OUTDIR: /tmp/artifacts
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: arch-packages
           path: /tmp/artifacts/*.pkg.tar.zst
@@ -45,7 +45,7 @@ jobs:
           cd $HOME/autopsy-bin
           extra-x86_64-build -- -U user -I "$(find "/tmp/artifacts" -name 'sleuthkit-java-*.pkg.tar.zst')"
           mv *.pkg.* /tmp/artifacts
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: arch-packages
           path: /tmp/artifacts/*.pkg.tar.zst
@@ -85,7 +85,7 @@ jobs:
             -s pacman autopsy-bin-${PACKAGE_AUTOPSY_BIN_VERSION}-${PACKAGE_AUTOPSY_BIN_REL}-x86_64.pkg.tar.zst
           mkdir -p /tmp/artifacts
           mv *.deb /tmp/artifacts
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: debian-packages
           path: /tmp/artifacts/*.deb
