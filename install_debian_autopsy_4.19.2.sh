@@ -20,7 +20,7 @@ apt -y install curl gnupg
 curl -OL https://github.com/sleuthkit/sleuthkit/releases/download/sleuthkit-4.11.1/sleuthkit-java_4.11.1-1_amd64.deb
 curl -OL https://github.com/labcif/autopsy-packager/releases/download/4.19.2-1/autopsy_4.19.2-1_amd64.deb
 
-curl https://download.bell-sw.com/pki/GPG-KEY-bellsoft | apt-key add -
+curl https://download.bell-sw.com/pki/GPG-KEY-bellsoft | gpg --dearmor --yes --output /etc/apt/trusted.gpg.d/bellsoft.gpg
 echo "deb [arch=amd64] https://apt.bell-sw.com/ stable main" > /etc/apt/sources.list.d/bellsoft.list
 
 apt -y update
