@@ -42,3 +42,4 @@ Copy the code below and paste on a terminal window.
 - Autopsy 4.18.0 -> [The Sleuth Kit 4.10.2](https://github.com/sleuthkit/sleuthkit/releases/download/sleuthkit-4.10.2/sleuthkit-java_4.10.2-1_amd64.deb)
 - Autopsy 4.19.1 -> [The Sleuth Kit 4.11.0](https://github.com/sleuthkit/sleuthkit/releases/download/sleuthkit-4.11.0/sleuthkit-java_4.11.0-1_amd64.deb)
 - Autopsy 4.19.2 -> [The Sleuth Kit 4.11.1](https://github.com/sleuthkit/sleuthkit/releases/download/sleuthkit-4.11.1/sleuthkit-java_4.11.1-1_amd64.deb)
+- Autopsy 4.20.0 -> [The Sleuth Kit 4.12.0](https://github.com/sleuthkit/sleuthkit/releases/download/sleuthkit-4.12.0/sleuthkit-java_4.12.0-1_amd64.deb)
