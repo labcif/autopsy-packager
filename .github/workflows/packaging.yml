@@ -2,12 +2,12 @@ name: packaging
 on: [push, pull_request, workflow_dispatch]
 
 env:
-  PACKAGE_SLEUTHKIT_JAVA_VERSION: 4.11.1
+  PACKAGE_SLEUTHKIT_JAVA_VERSION: 4.12.0
   PACKAGE_SLEUTHKIT_JAVA_REL: 1
-  PACKAGE_SLEUTHKIT_JAVA_SHA: 145c843634c416b0fcc02a774ea147b3dd9822de
-  PACKAGE_AUTOPSY_BIN_VERSION: 4.19.2
-  PACKAGE_AUTOPSY_BIN_REL: 3
-  PACKAGE_AUTOPSY_BIN_SHA: d53a9b43616e3498c66f754b8d2b30a70f6117fb
+  PACKAGE_SLEUTHKIT_JAVA_SHA: 25880421c1d209b6625426c6ff33610aa9494459
+  PACKAGE_AUTOPSY_BIN_VERSION: 4.20.0
+  PACKAGE_AUTOPSY_BIN_REL: 1
+  PACKAGE_AUTOPSY_BIN_SHA: db8a9ea80411bb325519cc4f4f5be1a060ecd191
 
 jobs:
   arch-packages:
@@ -24,7 +24,7 @@ jobs:
           pacman -S git --noconfirm --needed --noprogressbar
       - name: Clone sleuthkit-java build repo from AUR
         run: |
-          git clone https://aur.archlinux.org/sleuthkit-java.git $HOME/sleuthkit-java
+          git clone https://github.com/miguel-negrao/aur_sleuthkit_java.git $HOME/sleuthkit-java
           (cd $HOME/sleuthkit-java; git checkout $PACKAGE_SLEUTHKIT_JAVA_SHA)
       - name: Build sleuthkit-java
         uses: FFY00/build-arch-package@v1
@@ -37,7 +37,7 @@ jobs:
           path: /tmp/artifacts/*.pkg.tar.zst
       - name: Clone autopsy-bin build repo from AUR
         run: |
-          git clone https://aur.archlinux.org/autopsy-bin.git $HOME/autopsy-bin
+          git clone https://github.com/miguel-negrao/aur_autopsy_bin.git $HOME/autopsy-bin
           (cd $HOME/autopsy-bin; git checkout $PACKAGE_AUTOPSY_BIN_SHA)
       - name: Build autopsy-bin
         run: |
