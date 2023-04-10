@@ -15,8 +15,6 @@ jobs:
     container:
       image: archlinux
       options: --privileged # Needed for building in clean chroot
-      volumes:
-        - /sys/fs/cgroup:/sys/fs/cgroup # systemd nspawn needs cgroups
     steps:
       - name: Install required dependencies
         run: |
