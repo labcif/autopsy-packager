@@ -5,6 +5,10 @@
 
 Automatic Github Workflows packager for autopsy
 
+NOTE: THIS REPOSITORY IS DEPRECATED.
+
+For version 4.21 and above you should use the snap package which can be [downloaded from the github releases page](https://github.com/sleuthkit/autopsy/releases/download/autopsy-4.21.0/autopsy_4.21.0_amd64.snap). Read how to install [here](https://github.com/sleuthkit/autopsy/blob/develop/snap/README.md).
+
 ## Installation
 
 Right now the built packages are only available under the CI artifacts. Check out the latest CI build of the matching package version and download the artifacts from there.
